@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "types": ["node"],
+        "outDir": "./lib",
+        "noImplicitAny": true,
+        "lib": ["ESNext"],
+        "module": "NodeNext",
+        "allowJs": true,
+        "moduleResolution": "nodenext",
+        "esModuleInterop": true,
+        "resolveJsonModule": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "lib/**/*"]
+}
