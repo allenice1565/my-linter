@@ -4,11 +4,12 @@
         "outDir": "./lib",
         "noImplicitAny": true,
         "lib": ["ESNext"],
-        "module": "NodeNext",
+        "target": "ES5",
         "allowJs": true,
-        "moduleResolution": "nodenext",
         "esModuleInterop": true,
-        "resolveJsonModule": true
+        "module": "ESNext",
+        "moduleResolution": "Node10",
+        "allowArbitraryExtensions": true
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "lib/**/*"]
