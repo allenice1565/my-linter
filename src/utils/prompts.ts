@@ -65,6 +65,7 @@ const chooseEnablePrettier = async (step: number): Promise<boolean> => {
     return enable
 }
 
+/** 通过终端交互获取项目配置选项 */
 export const getConfig = async (options: InitOptions) => {
     let step = 0
     const config: Record<string, any> = {}

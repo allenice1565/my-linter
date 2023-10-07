@@ -2,6 +2,7 @@ import { Command } from 'commander'
 // import ora from 'ora';
 import path from 'path'
 import { PKG_NAME, PKG_VERSION } from './utils/constants'
+import init from '@/actions/init'
 
 const program = new Command()
 const cwd = process.cwd()
@@ -20,6 +21,7 @@ program
     )
     .option('--vscode', '写入.vscode/setting.json配置')
     .action(async (cmd) => {
+        init({cwd})
         if (cmd.vscode) {
             const configPath = path.resolve(cwd, `${PKG_NAME}.config.js`)
         } else {

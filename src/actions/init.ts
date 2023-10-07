@@ -10,6 +10,7 @@ export default async (options: InitOptions) => {
     const pkgPath = path.resolve(cwd, 'package.json')
     let pkg: PKG = fs.readJSONSync(pkgPath)
 
+    // 通过终端交互获取项目配置选项
     const configResult = await getConfig(options)
     const config = configResult.config
     let step = configResult.step
@@ -33,11 +34,11 @@ export default async (options: InitOptions) => {
     if (!pkg.husky.hooks) pkg.husky.hooks = {}
     pkg.husky.hooks['pre-commit'] = `${PKG_NAME} commit-file-scan`
     pkg.husky.hooks['commit-msg'] = `${PKG_NAME} commit-msg-scan`
-    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2))
+    // fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2))
     log.success(`Step ${step}. 配置 git commit 卡点成功 :D`)
 
     log.info(`Step ${++step}. 写入配置文件`)
-    console.log(cwd, config)
+    console.log({cwd, config, pkg})
     log.success(`Step ${step}. 写入配置文件成功 :D`)
 
     // 完成信息
