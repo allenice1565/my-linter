@@ -13,6 +13,7 @@
     },
     "plugins": ["@typescript-eslint"],
     "root": true,
+    "ignorePatterns":["rollup.config.mjs"],
     "rules": {
         "@typescript-eslint/no-explicit-any": 0,
         "@typescript-eslint/no-var-requires": 0

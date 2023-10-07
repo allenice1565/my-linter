@@ -19,7 +19,12 @@ const config = defineConfig([
                 format: 'cjs',
             },
         ],
-        plugins: [resolve({ preferBuiltins: true }), commonjs(), ts(), json()],
+        plugins: [
+            resolve({ preferBuiltins: true, exportConditions: ['node'] }),
+            commonjs(),
+            ts(),
+            json(),
+        ],
         external: ['readable-stream'],
     },
     // 打包类型声明
