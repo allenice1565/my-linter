@@ -1,24 +1,6 @@
 import { Command } from 'commander'
-import inquirer from 'inquirer'
 // import ora from 'ora';
-// import fs from 'fs-extra';
 import { PKG_NAME, PKG_VERSION } from './utils/constants'
-// const PKG_NAME = '1'
-
-// const PKG_VERSION = '2'
-
-const InitPrompts = [
-    {
-        name: 'description',
-        message: 'please input description',
-        default: '',
-    },
-    {
-        name: 'author',
-        message: 'please input author',
-        default: '',
-    },
-]
 
 const program = new Command()
 
@@ -35,9 +17,7 @@ program
         '一键接入：为项目初始化规约工具和配置，可以根据项目类型和需求进行定制'
     )
     .action(async () => {
-        const initOptions = await inquirer.prompt(InitPrompts)
-        console.log('initOptions', initOptions)
+        console.log(12)
     })
 
 program.parse()
-console.log('完成')

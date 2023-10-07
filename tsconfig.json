@@ -1,14 +1,13 @@
 {
     "compilerOptions": {
         "types": ["node"],
-        "outDir": "./lib",
         "noImplicitAny": true,
         "lib": ["ESNext"],
-        "target": "ES5",
+        "target": "ES6",
         "allowJs": true,
         "esModuleInterop": true,
         "module": "ESNext",
-        "moduleResolution": "Node10",
+        "moduleResolution": "Node",
         "allowArbitraryExtensions": true
     },
     "include": ["src/**/*"],
