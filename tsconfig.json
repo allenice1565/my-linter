@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "types": ["node"],
+        "types": ["node", "vitest/globals"],
         "noImplicitAny": true,
         "lib": ["ESNext"],
         "target": "ES6",
@@ -8,8 +8,13 @@
         "esModuleInterop": true,
         "module": "ESNext",
         "moduleResolution": "Node",
-        "allowArbitraryExtensions": true
+        "allowArbitraryExtensions": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"],
+            "@utils/*": ["src/utils/*"]
+        }
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "tests/**/*"],
     "exclude": ["node_modules", "lib/**/*"]
 }

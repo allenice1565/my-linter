@@ -1,8 +1,10 @@
 import { Command } from 'commander'
 // import ora from 'ora';
+import path from 'path'
 import { PKG_NAME, PKG_VERSION } from './utils/constants'
 
 const program = new Command()
+const cwd = process.cwd()
 
 program
     .name(PKG_NAME)
@@ -16,8 +18,16 @@ program
     .description(
         '一键接入：为项目初始化规约工具和配置，可以根据项目类型和需求进行定制'
     )
-    .action(async () => {
-        console.log(12)
+    .option('--vscode', '写入.vscode/setting.json配置')
+    .action(async (cmd) => {
+        if (cmd.vscode) {
+            const configPath = path.resolve(cwd, `${PKG_NAME}.config.js`)
+        } else {
+            // await init({
+            //     cwd,
+            //     checkVersionUpdate: true,
+            // })
+        }
     })
 
 program.parse()

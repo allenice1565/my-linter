@@ -1,10 +1,15 @@
 import path from 'path'
 import fs from 'fs-extra'
+import url from 'url'
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 // 读取 package.json
 const packageJson: Record<string, any> = JSON.parse(
     fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf8')
 )
+
+export const cwd = process.cwd()
 
 export enum UNICODE {
     success = '\u2714', // ✔
@@ -42,14 +47,6 @@ export const PROJECT_TYPES: Array<{ name: string; value: string }> = [
         value: 'typescript/react',
     },
     {
-        name: 'Rax 项目（JavaScript）',
-        value: 'rax',
-    },
-    {
-        name: 'Rax 项目（TypeScript）',
-        value: 'typescript/rax',
-    },
-    {
         name: 'Vue 项目（JavaScript）',
         value: 'vue',
     },
@@ -64,10 +61,6 @@ export const PROJECT_TYPES: Array<{ name: string; value: string }> = [
     {
         name: 'Node.js 项目（TypeScript）',
         value: 'typescript/node',
-    },
-    {
-        name: '使用 ES5 及之前版本 JavaScript 的老项目',
-        value: 'es5',
     },
 ]
 
