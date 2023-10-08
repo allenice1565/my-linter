@@ -66,7 +66,7 @@ const chooseEnablePrettier = async (step: number): Promise<boolean> => {
 }
 
 /** 通过终端交互获取项目配置选项 */
-export const getConfig = async (options: InitOptions) => {
+export const getConfig = async (options: InitOptions = {}) => {
     let step = 0
     const config: Record<string, any> = {}
     // 初始化 `enableESLint`，默认为 true，无需让用户选择

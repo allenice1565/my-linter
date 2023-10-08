@@ -21,15 +21,11 @@ program
     )
     .option('--vscode', '写入.vscode/setting.json配置')
     .action(async (cmd) => {
-        init({cwd})
+        let options: InitOptions = {}
+        const configPath = path.resolve(cwd, `${PKG_NAME}.config.js`)
         if (cmd.vscode) {
-            const configPath = path.resolve(cwd, `${PKG_NAME}.config.js`)
-        } else {
-            // await init({
-            //     cwd,
-            //     checkVersionUpdate: true,
-            // })
         }
+        init()
     })
 
 program.parse()

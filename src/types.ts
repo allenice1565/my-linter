@@ -73,7 +73,7 @@ export interface ScanReport {
 }
 
 export interface InitOptions {
-    cwd: string
+    // cwd: string
     // 是否检查并升级 f2elint 的版本
     // checkVersionUpdate: boolean
     // 是否需要自动重写 lint 配置
@@ -89,7 +89,7 @@ export interface InitOptions {
     // 是否启用 prettier
     enablePrettier?: boolean
     // 是否禁用自动在初始化完成后安装依赖
-    disableNpmInstall?: boolean
+    // disableNpmInstall?: boolean
 }
 
 export interface IGetLintConfig {
