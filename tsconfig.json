@@ -15,6 +15,6 @@
             "@utils/*": ["src/utils/*"]
         }
     },
-    "include": ["src/**/*", "tests/**/*"],
+    "include": ["src/**/*", "tests/**/*", "./rollup.config.ts"],
     "exclude": ["node_modules", "lib/**/*"]
 }

@@ -29,38 +29,50 @@ export const PKG_VERSION: string = packageJson.version
 /**
  * 项目类型
  */
-export const PROJECT_TYPES: Array<{ name: string; value: string }> = [
+export const PROJECT_TYPES: Array<{
+    name: string
+    value: string
+    index: number
+}> = [
     {
-        name: '未使用 React、Vue、Node.js 的项目（JavaScript）',
-        value: 'index',
-    },
-    {
-        name: '未使用 React、Vue、Node.js 的项目（TypeScript）',
-        value: 'typescript',
-    },
-    {
-        name: 'React 项目（JavaScript）',
-        value: 'react',
-    },
-    {
-        name: 'React 项目（TypeScript）',
-        value: 'typescript/react',
-    },
-    {
+        index: 0,
         name: 'Vue 项目（JavaScript）',
         value: 'vue',
     },
     {
+        index: 1,
         name: 'Vue 项目（TypeScript）',
         value: 'typescript/vue',
     },
     {
+        index: 2,
         name: 'Node.js 项目（JavaScript）',
         value: 'node',
     },
     {
+        index: 3,
         name: 'Node.js 项目（TypeScript）',
         value: 'typescript/node',
+    },
+    {
+        index: 4,
+        name: 'React 项目（JavaScript）',
+        value: 'react',
+    },
+    {
+        index: 5,
+        name: 'React 项目（TypeScript）',
+        value: 'typescript/react',
+    },
+    {
+        index: 6,
+        name: 'React 项目（JavaScript）',
+        value: 'nuxt',
+    },
+    {
+        index: 7,
+        name: 'React 项目（TypeScript）',
+        value: 'typescript/nuxt',
     },
 ]
 

@@ -6,7 +6,7 @@ import { getConfig } from '@utils/prompts'
 import type { InitOptions, PKG } from '@/types'
 
 export default async (options: InitOptions) => {
-    const cwd = options.cwd || process.cwd()
+    const cwd = process.cwd()
     const pkgPath = path.resolve(cwd, 'package.json')
     let pkg: PKG = fs.readJSONSync(pkgPath)
 
@@ -34,11 +34,11 @@ export default async (options: InitOptions) => {
     if (!pkg.husky.hooks) pkg.husky.hooks = {}
     pkg.husky.hooks['pre-commit'] = `${PKG_NAME} commit-file-scan`
     pkg.husky.hooks['commit-msg'] = `${PKG_NAME} commit-msg-scan`
-    // fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2))
+    // fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 4))
     log.success(`Step ${step}. 配置 git commit 卡点成功 :D`)
 
     log.info(`Step ${++step}. 写入配置文件`)
-    console.log({cwd, config, pkg})
+    console.log({ cwd, config, pkg })
     log.success(`Step ${step}. 写入配置文件成功 :D`)
 
     // 完成信息

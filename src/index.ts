@@ -3,6 +3,7 @@ import { Command } from 'commander'
 import path from 'path'
 import { PKG_NAME, PKG_VERSION } from './utils/constants'
 import init from '@/actions/init'
+import { InitOptions } from './types'
 
 const program = new Command()
 const cwd = process.cwd()
@@ -23,9 +24,7 @@ program
     .action(async (cmd) => {
         let options: InitOptions = {}
         const configPath = path.resolve(cwd, `${PKG_NAME}.config.js`)
-        if (cmd.vscode) {
-        }
-        init()
+        init({})
     })
 
 program.parse()
