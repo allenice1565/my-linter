@@ -42,7 +42,7 @@ export const PROJECT_TYPES: Array<{
     {
         index: 1,
         name: 'Vue 项目（TypeScript）',
-        value: 'typescript/vue',
+        value: 'vue/typescript',
     },
     {
         index: 2,
@@ -52,7 +52,7 @@ export const PROJECT_TYPES: Array<{
     {
         index: 3,
         name: 'Node.js 项目（TypeScript）',
-        value: 'typescript/node',
+        value: 'node/typescript',
     },
     {
         index: 4,
@@ -62,7 +62,7 @@ export const PROJECT_TYPES: Array<{
     {
         index: 5,
         name: 'React 项目（TypeScript）',
-        value: 'typescript/react',
+        value: 'react/typescript',
     },
     {
         index: 6,
@@ -72,7 +72,7 @@ export const PROJECT_TYPES: Array<{
     {
         index: 7,
         name: 'React 项目（TypeScript）',
-        value: 'typescript/nuxt',
+        value: 'nuxt/typescript',
     },
 ]
 

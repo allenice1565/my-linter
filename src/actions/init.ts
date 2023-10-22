@@ -3,15 +3,15 @@ import path from 'path'
 import log from '@utils/log'
 import { PKG_NAME } from '@utils/constants'
 import { getConfig } from '@utils/prompts'
-import type { InitOptions, PKG } from '@/types'
+import type { PKG } from '@/types'
 
-export default async (options: InitOptions) => {
+export default async () => {
     const cwd = process.cwd()
     const pkgPath = path.resolve(cwd, 'package.json')
     let pkg: PKG = fs.readJSONSync(pkgPath)
 
     // 通过终端交互获取项目配置选项
-    const configResult = await getConfig(options)
+    const configResult = await getConfig()
     const config = configResult.config
     let step = configResult.step
 

@@ -1,18 +1,23 @@
 import { globSync } from 'glob'
 
 const strategyObj = {
-    vue: function () {},
-    'typescript/vue': function () {},
+    vue: function () {
+        /**
+         * 
+         */
+    },
+    'vue/typescript': function () {},
     node: function () {},
-    'typescript/node': function () {},
+    'node/typescript': function () {},
     react: function () {},
-    'typescript/react': function () {},
+    'react/typescript': function () {},
     nuxt: function () {},
-    'typescript/nuxt': function () {},
+    'nuxt/typescript': function () {},
 }
 
-export const generateTemplates = (type: string, templatePath: string) => {
-    const files = globSync('**/*.ejs', { cwd: templatePath })
+type IStrategyType = keyof typeof strategyObj
+
+export const generateTemplates = (type: IStrategyType) => {
+    // const files = globSync('**/*.ejs', { cwd: templatePath })
     strategyObj[type]()
-    return files
 }
