@@ -12,7 +12,7 @@ export default async () => {
     try {
         pkg = fs.readJSONSync(pkgPath)
     } catch (e) {
-        log.error(`读取package.json失败`)
+        log.error(`读取package.json失败，即将退出脚本！`)
         return
     }
     // 通过终端交互获取项目配置选项
