@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 import url from 'url'
+import { IEslintType } from '@/types'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
@@ -153,4 +154,144 @@ export const PRETTIER_IGNORE_PATTERN: string[] = [
     'lib/**/*',
     'es/**/*',
     'coverage/**/*',
+]
+
+/**
+ * Eslint 模板配置
+ */
+export const eslintConfigMap: Record<IEslintType, Record<string, any>> = {
+    vue: {
+        language: 'javascript',
+        env: { browser: true },
+        extendsList: [
+            '@nuxtjs/eslint-config-typescript',
+            'plugin:vue/vue3-essential',
+            'plugin:vue/vue3-recommended',
+            'prettier',
+        ],
+        pluginsList: [],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
+    },
+    'vue/typescript': {
+        language: 'typescript',
+        env: { browser: true },
+        extendsList: [
+            '@nuxtjs/eslint-config-typescript',
+            'plugin:vue/vue3-essential',
+            'plugin:vue/vue3-recommended',
+            'prettier',
+        ],
+        pluginsList: [],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
+    },
+    node: {
+        language: 'javascript',
+        env: { browser: true },
+        extendsList: [
+            '@nuxtjs/eslint-config-typescript',
+            'plugin:vue/vue3-essential',
+            'plugin:vue/vue3-recommended',
+            'prettier',
+        ],
+        pluginsList: [],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
+    },
+    'node/typescript': {
+        language: 'javascript',
+        env: { browser: true },
+        extendsList: [
+            '@nuxtjs/eslint-config-typescript',
+            'plugin:vue/vue3-essential',
+            'plugin:vue/vue3-recommended',
+            'prettier',
+        ],
+        pluginsList: [],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
+    },
+    react: {
+        language: 'javascript',
+        env: { browser: true },
+        extendsList: [
+            '@nuxtjs/eslint-config-typescript',
+            'plugin:vue/vue3-essential',
+            'plugin:vue/vue3-recommended',
+            'prettier',
+        ],
+        pluginsList: [],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
+    },
+    'react/typescript': {
+        language: 'javascript',
+        env: { browser: true },
+        extendsList: [
+            '@nuxtjs/eslint-config-typescript',
+            'plugin:vue/vue3-essential',
+            'plugin:vue/vue3-recommended',
+            'prettier',
+        ],
+        pluginsList: [],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
+    },
+    nuxt: {
+        language: 'javascript',
+        env: { browser: true },
+        extendsList: [
+            '@nuxtjs/eslint-config-typescript',
+            'plugin:vue/vue3-essential',
+            'plugin:vue/vue3-recommended',
+            'prettier',
+        ],
+        pluginsList: [],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
+    },
+    'nuxt/typescript': {
+        language: 'javascript',
+        env: { browser: true },
+        extendsList: [
+            '@nuxtjs/eslint-config-typescript',
+            'plugin:vue/vue3-essential',
+            'plugin:vue/vue3-recommended',
+            'prettier',
+        ],
+        pluginsList: [],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
+    },
+}
+
+/**
+ * 依赖包名称和版本
+ */
+export const dependenciesInfo: Array<Record<'name' | 'version', string>> = [
+    { name: 'eslint', version: '8.50.0' },
+    { name: 'espree', version: '9.6.1' },
+    { name: 'prettier', version: '3.0.3' },
+    { name: 'husky', version: '8.0.3' },
+    { name: 'lint-staged', version: '15.0.2' },
+    { name: 'commitlint', version: '3.0.3' },
+    { name: 'commitizen', version: '4.3.0' },
+    { name: 'stylelint', version: '15.11.0' },
 ]

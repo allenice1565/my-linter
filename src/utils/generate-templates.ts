@@ -1,83 +1,64 @@
 import { IConfig } from 'src/types'
 import ejs from 'ejs'
 import path from 'path'
-import fs from 'fs-extra'
+import fse from 'fs-extra'
 import url from 'url'
 import { cwd } from 'node:process'
+import { eslintConfigMap } from './constants'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
-// const dependenciesInfo: Array<Record<'name' | 'version', string>> = [
-//     { name: 'eslint', version: '8.50.0' },
-//     { name: 'espree', version: '9.6.1' },
-//     { name: 'prettier', version: '3.0.3' },
-//     { name: 'husky', version: '8.0.3' },
-//     { name: 'lint-staged', version: '15.0.2' },
-//     { name: 'commitlint', version: '3.0.3' },
-//     { name: 'commitizen', version: '4.3.0' },
-//     { name: 'stylelint', version: '15.11.0' },
-// ]
-const eslintTypeMap = {
-    vue: function () {
-        const templatePath = path.resolve(
-            __dirname,
-            '../templates/.eslintrc.js.ejs'
-        )
-        const outputPath = path.resolve(cwd(), './.eslintrc.js')
-        generateTemplates(templatePath, outputPath, {
-            language: 'javascript',
-            env: { browser: true },
-            extendsList: [
-                '@nuxtjs/eslint-config-typescript',
-                'plugin:vue/vue3-essential',
-                'plugin:vue/vue3-recommended',
-                'prettier',
-            ],
-            pluginsList: [],
-            parser: 'vue-eslint-parser',
-            parserOptions: {
-                ecmaVersion: 15,
-            },
-        })
-    },
-    'vue/typescript': function () {},
-    node: function () {},
-    'node/typescript': function () {},
-    react: function () {},
-    'react/typescript': function () {},
-    nuxt: function () {},
-    'nuxt/typescript': function () {},
-}
-export const installLinters = ({
+export const generateTemplates = ({
     eslintType,
     enablePrettier,
     enableStylelint,
     enableMarkdownlint,
 }: IConfig) => {
-    eslintTypeMap[eslintType]()
-    const lintersMap = {
-        prettier() {},
-        stylelint() {},
-        markdownlint() {},
-    }
+    // 生成 .eslintrc.js
+    renderTemplate(
+        path.resolve(__dirname, '../templates/.eslintrc.js.ejs'),
+        path.resolve(cwd(), './.eslintrc.js'),
+        eslintConfigMap[eslintType]
+    )
+
     if (enablePrettier) {
-        lintersMap.prettier()
+        // 生成 .prettierrc.js
+        renderTemplate(
+            path.resolve(__dirname, '../templates/.prettierrc.ejs'),
+            path.resolve(cwd(), './.prettierrc'),
+            eslintConfigMap[eslintType]
+        )
     }
     if (enableStylelint) {
-        lintersMap.stylelint()
+        // renderTemplate(
+        //     path.resolve(__dirname, '../templates/.eslintrc.js.ejs'),
+        //     path.resolve(cwd(), './.eslintrc.js'),
+        // )
     }
     if (enableMarkdownlint) {
-        lintersMap.markdownlint()
+        // renderTemplate(
+        //     path.resolve(__dirname, '../templates/.eslintrc.js.ejs'),
+        //     path.resolve(cwd(), './.eslintrc.js'),
+        // )
     }
+    // 添加编辑器配置
+    renderTemplate(
+        path.resolve(__dirname, '../templates/.editorconfig.ejs'),
+        path.resolve(cwd(), './.editorconfig')
+    )
+    renderTemplate(
+        path.resolve(__dirname, '../templates/.vscode/settings.json.ejs'),
+        path.resolve(cwd(), './.vscode/settings.json')
+    )
 }
 
-function generateTemplates(
+function renderTemplate(
     templatePath: string,
     outputPath: string,
-    ejsData: Record<string, any>
+    ejsData: Record<string, any> = {}
 ) {
-    const template = fs.readFileSync(templatePath, 'utf8')
-    fs.writeFileSync(
+    const template = fse.readFileSync(templatePath, 'utf8')
+    fse.outputFileSync(
         outputPath,
         ejs.render(template, ejsData, {
             escape: (str: string) => str,

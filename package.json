@@ -6,11 +6,12 @@
     "main": "./dist/src/index.js",
     "types": "./dist/src/index.d.ts",
     "scripts": {
-        "dev": "rm -rf dist && copyfiles -a -f src/templates/** dist/templates/ && rollup -c",
+        "dev": "rm -rf dist && npm run copyfiles && rollup -c",
         "build": "rollup -c",
         "lint": "eslint src/*",
         "lint:fix": "eslint --fix src",
-        "test": "vitest"
+        "test": "vitest",
+        "copyfiles": "copyfiles -a -u 1 src/templates/** dist/ && echo finished copying templates!"
     },
     "exports": {
         ".": {

@@ -4,7 +4,7 @@ import log from '@utils/log'
 import { PKG_NAME } from '@utils/constants'
 import { getConfig } from '@utils/prompts'
 import type { IConfig, PKG } from '@/types'
-import { installLinters } from '@/utils/generate-templates'
+import { generateTemplates } from '@/utils/generate-templates'
 export default async () => {
     const cwd = process.cwd()
     const pkgPath = path.resolve(cwd, 'package.json')
@@ -19,7 +19,7 @@ export default async () => {
     const configResult = await getConfig()
     const config: IConfig = configResult.config
     let step = configResult.step
-    installLinters(config)
+    generateTemplates(config)
     return
     // 更新 pkg.json
     pkg = fs.readJSONSync(pkgPath)
