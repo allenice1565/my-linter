@@ -3,18 +3,24 @@ import path from 'path'
 import log from '@utils/log'
 import { PKG_NAME } from '@utils/constants'
 import { getConfig } from '@utils/prompts'
-import type { PKG } from '@/types'
-
+import type { IConfig, PKG } from '@/types'
+import { installLinters } from '@/utils/generate-templates'
 export default async () => {
     const cwd = process.cwd()
     const pkgPath = path.resolve(cwd, 'package.json')
-    let pkg: PKG = fs.readJSONSync(pkgPath)
-
+    let pkg: PKG
+    try {
+        pkg = fs.readJSONSync(pkgPath)
+    } catch (e) {
+        log.error(`读取package.json失败`)
+        return
+    }
     // 通过终端交互获取项目配置选项
     const configResult = await getConfig()
-    const config = configResult.config
+    const config: IConfig = configResult.config
     let step = configResult.step
-
+    installLinters(config)
+    return
     // 更新 pkg.json
     pkg = fs.readJSONSync(pkgPath)
     // 在 `package.json` 中写入 `scripts`

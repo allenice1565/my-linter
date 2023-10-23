@@ -1,6 +1,6 @@
 import inquirer from 'inquirer'
 import { PROJECT_TYPES } from '@utils/constants'
-import type { InitOptions } from '@/types'
+import type { IConfig, IEslintType } from '@/types'
 
 /**
  * 选择项目语言和框架
@@ -19,8 +19,7 @@ const chooseEslintType = async (step: number): Promise<string> => {
  * 选择是否启用 stylelint
  * @param defaultValue
  */
-const chooseEnableStylelint = async (
-    step: number): Promise<boolean> => {
+const chooseEnableStylelint = async (step: number): Promise<boolean> => {
     const { enable } = await inquirer.prompt({
         type: 'confirm',
         name: 'enable',
@@ -59,14 +58,15 @@ const chooseEnablePrettier = async (step: number): Promise<boolean> => {
 /** 通过终端交互获取项目配置选项 */
 export const getConfig = async () => {
     let step = 0
-    const config: Record<string, any> = {}
-    // 选择项目类型
-    config.eslintType = await chooseEslintType(++step)
-    // 是否添加prettier
-    config.enablePrettier = await chooseEnablePrettier(++step)
-    // 是否添加stylelint
-    config.enableStylelint = await chooseEnableStylelint(++step)
-    // 是否添加markdownlint
-    config.enableMarkdownlint = await chooseEnableMarkdownlint(++step)
+    const config: IConfig = {
+        // 选择项目类型
+        eslintType: (await chooseEslintType(++step)) as IEslintType,
+        // 是否添加prettier
+        enablePrettier: await chooseEnablePrettier(++step),
+        // 是否添加stylelint
+        enableStylelint: await chooseEnableStylelint(++step),
+        // 是否添加markdownlint
+        enableMarkdownlint: await chooseEnableMarkdownlint(++step),
+    }
     return { config, step }
 }
