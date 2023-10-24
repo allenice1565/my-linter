@@ -24,6 +24,7 @@ export const config: UserConfig = {
             ],
         ],
         'type-case': [2, 'always', 'lowerCase'],
+        'type-empty': [2, 'never'],
         'subject-case': [0],
         'subject-empty': [2, 'always'],
         'subject-full-stop': [0],
