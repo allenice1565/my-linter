@@ -13,17 +13,10 @@ export type IEslintType =
     | 'vue/typescript'
     | 'node'
     | 'node/typescript'
-    | 'react'
-    | 'react/typescript'
     | 'nuxt'
     | 'nuxt/typescript'
 
 export interface IConfig {
     eslintType: IEslintType
-    // 是否启用 prettier
-    enablePrettier: boolean
-    // 是否启用 stylelint
-    enableStylelint: boolean
-    // 是否启用 markdown lint
-    enableMarkdownlint: boolean
+    npmType: 'npm' | 'yarn' | 'pnpm'
 }

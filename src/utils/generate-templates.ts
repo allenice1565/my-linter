@@ -8,12 +8,7 @@ import { eslintConfigMap } from './constants'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
-export const generateTemplates = ({
-    eslintType,
-    enablePrettier,
-    enableStylelint,
-    enableMarkdownlint,
-}: IConfig) => {
+export const generateTemplates = ({ eslintType }: IConfig) => {
     // 生成 .eslintrc.js
     renderTemplate(
         path.resolve(__dirname, '../templates/.eslintrc.js.ejs'),
@@ -21,26 +16,11 @@ export const generateTemplates = ({
         eslintConfigMap[eslintType]
     )
 
-    if (enablePrettier) {
-        // 生成 .prettierrc.js
-        renderTemplate(
-            path.resolve(__dirname, '../templates/.prettierrc.ejs'),
-            path.resolve(cwd(), './.prettierrc'),
-            eslintConfigMap[eslintType]
-        )
-    }
-    if (enableStylelint) {
-        // renderTemplate(
-        //     path.resolve(__dirname, '../templates/.eslintrc.js.ejs'),
-        //     path.resolve(cwd(), './.eslintrc.js'),
-        // )
-    }
-    if (enableMarkdownlint) {
-        // renderTemplate(
-        //     path.resolve(__dirname, '../templates/.eslintrc.js.ejs'),
-        //     path.resolve(cwd(), './.eslintrc.js'),
-        // )
-    }
+    // 生成 .prettierrc.js
+    renderTemplate(
+        path.resolve(__dirname, '../templates/.prettierrc.ejs'),
+        path.resolve(cwd(), './.prettierrc')
+    )
     // 添加编辑器配置
     renderTemplate(
         path.resolve(__dirname, '../templates/.editorconfig.ejs'),

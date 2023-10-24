@@ -5,6 +5,7 @@ import { PKG_NAME } from '@utils/constants'
 import { getConfig } from '@utils/prompts'
 import type { IConfig, PKG } from '@/types'
 import { generateTemplates } from '@/utils/generate-templates'
+import installDependencies from '@/utils/install-dependencies'
 export default async () => {
     const cwd = process.cwd()
     const pkgPath = path.resolve(cwd, 'package.json')
@@ -19,8 +20,7 @@ export default async () => {
     const configResult = await getConfig()
     const config: IConfig = configResult.config
     let step = configResult.step
-    generateTemplates(config)
-    return
+    installDependencies(config)
     // 更新 pkg.json
     pkg = fs.readJSONSync(pkgPath)
     // 在 `package.json` 中写入 `scripts`
@@ -40,13 +40,12 @@ export default async () => {
     if (!pkg.husky.hooks) pkg.husky.hooks = {}
     pkg.husky.hooks['pre-commit'] = `${PKG_NAME} commit-file-scan`
     pkg.husky.hooks['commit-msg'] = `${PKG_NAME} commit-msg-scan`
-    // fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 4))
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 4))
     log.success(`Step ${step}. 配置 git commit 卡点成功 :D`)
 
     log.info(`Step ${++step}. 写入配置文件`)
-    console.log({ cwd, config, pkg })
+    generateTemplates(config)
     log.success(`Step ${step}. 写入配置文件成功 :D`)
-
     // 完成信息
     const logs = [`${PKG_NAME} 初始化完成 :D`].join('\r\n')
     log.success(logs)

@@ -16,43 +16,20 @@ const chooseEslintType = async (step: number): Promise<string> => {
 }
 
 /**
- * 选择是否启用 stylelint
- * @param defaultValue
+ * 选择项目语言和框架
  */
-const chooseEnableStylelint = async (step: number): Promise<boolean> => {
-    const { enable } = await inquirer.prompt({
-        type: 'confirm',
-        name: 'enable',
-        message: `Step ${step}. 是否需要使用 stylelint（若没有样式文件则不需要）：`,
-        default: false,
+const chooseNpmType = async (step: number): Promise<string> => {
+    const { type } = await inquirer.prompt({
+        type: 'list',
+        name: 'type',
+        message: `Step ${step}. 请选择项目的语言（JS/TS）和框架（React/Vue）类型：`,
+        choices: [
+            { name: 'pnpm', value: 'pnpm' },
+            { name: 'yarn', value: 'yarn' },
+            { name: 'npm', value: 'npm' },
+        ],
     })
-    return enable
-}
-
-/**
- * 选择是否启用 markdownlint
- */
-const chooseEnableMarkdownlint = async (step: number): Promise<boolean> => {
-    const { enable } = await inquirer.prompt({
-        type: 'confirm',
-        name: 'enable',
-        message: `Step ${step}. 是否需要使用 markdownlint（若没有 Markdown 文件则不需要）：`,
-        default: true,
-    })
-    return enable
-}
-
-/**
- * 选择是否启用 prettier
- */
-const chooseEnablePrettier = async (step: number): Promise<boolean> => {
-    const { enable } = await inquirer.prompt({
-        type: 'confirm',
-        name: 'enable',
-        message: `Step ${step}. 是否需要使用 Prettier 格式化代码：`,
-        default: true,
-    })
-    return enable
+    return type
 }
 
 /** 通过终端交互获取项目配置选项 */
@@ -61,12 +38,7 @@ export const getConfig = async () => {
     const config: IConfig = {
         // 选择项目类型
         eslintType: (await chooseEslintType(++step)) as IEslintType,
-        // 是否添加prettier
-        enablePrettier: await chooseEnablePrettier(++step),
-        // 是否添加stylelint
-        enableStylelint: await chooseEnableStylelint(++step),
-        // 是否添加markdownlint
-        enableMarkdownlint: await chooseEnableMarkdownlint(++step),
+        npmType: (await chooseNpmType(++step)) as 'npm' | 'yarn' | 'pnpm',
     }
     return { config, step }
 }

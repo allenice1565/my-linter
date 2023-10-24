@@ -33,46 +33,29 @@ export const PKG_VERSION: string = packageJson.version
 export const PROJECT_TYPES: Array<{
     name: string
     value: string
-    index: number
 }> = [
     {
-        index: 0,
         name: 'Vue 项目（JavaScript）',
         value: 'vue',
     },
     {
-        index: 1,
         name: 'Vue 项目（TypeScript）',
         value: 'vue/typescript',
     },
     {
-        index: 2,
         name: 'Node.js 项目（JavaScript）',
         value: 'node',
     },
     {
-        index: 3,
         name: 'Node.js 项目（TypeScript）',
         value: 'node/typescript',
     },
     {
-        index: 4,
-        name: 'React 项目（JavaScript）',
-        value: 'react',
-    },
-    {
-        index: 5,
-        name: 'React 项目（TypeScript）',
-        value: 'react/typescript',
-    },
-    {
-        index: 6,
-        name: 'React 项目（JavaScript）',
+        name: 'nuxt 项目（JavaScript）',
         value: 'nuxt',
     },
     {
-        index: 7,
-        name: 'React 项目（TypeScript）',
+        name: 'nuxt 项目（TypeScript）',
         value: 'nuxt/typescript',
     },
 ]
@@ -164,7 +147,6 @@ export const eslintConfigMap: Record<IEslintType, Record<string, any>> = {
         language: 'javascript',
         env: { browser: true },
         extendsList: [
-            '@nuxtjs/eslint-config-typescript',
             'plugin:vue/vue3-essential',
             'plugin:vue/vue3-recommended',
             'prettier',
@@ -200,10 +182,6 @@ export const eslintConfigMap: Record<IEslintType, Record<string, any>> = {
             'prettier',
         ],
         pluginsList: [],
-        parser: 'vue-eslint-parser',
-        parserOptions: {
-            ecmaVersion: 15,
-        },
     },
     'node/typescript': {
         language: 'javascript',
@@ -215,37 +193,7 @@ export const eslintConfigMap: Record<IEslintType, Record<string, any>> = {
             'prettier',
         ],
         pluginsList: [],
-        parser: 'vue-eslint-parser',
-        parserOptions: {
-            ecmaVersion: 15,
-        },
-    },
-    react: {
-        language: 'javascript',
-        env: { browser: true },
-        extendsList: [
-            '@nuxtjs/eslint-config-typescript',
-            'plugin:vue/vue3-essential',
-            'plugin:vue/vue3-recommended',
-            'prettier',
-        ],
-        pluginsList: [],
-        parser: 'vue-eslint-parser',
-        parserOptions: {
-            ecmaVersion: 15,
-        },
-    },
-    'react/typescript': {
-        language: 'javascript',
-        env: { browser: true },
-        extendsList: [
-            '@nuxtjs/eslint-config-typescript',
-            'plugin:vue/vue3-essential',
-            'plugin:vue/vue3-recommended',
-            'prettier',
-        ],
-        pluginsList: [],
-        parser: 'vue-eslint-parser',
+        parser: '@typescript-eslint/parser',
         parserOptions: {
             ecmaVersion: 15,
         },
@@ -254,7 +202,6 @@ export const eslintConfigMap: Record<IEslintType, Record<string, any>> = {
         language: 'javascript',
         env: { browser: true },
         extendsList: [
-            '@nuxtjs/eslint-config-typescript',
             'plugin:vue/vue3-essential',
             'plugin:vue/vue3-recommended',
             'prettier',
@@ -286,12 +233,16 @@ export const eslintConfigMap: Record<IEslintType, Record<string, any>> = {
  * 依赖包名称和版本
  */
 export const dependenciesInfo: Array<Record<'name' | 'version', string>> = [
-    { name: 'eslint', version: '8.50.0' },
+    { name: 'eslint', version: '8.52.0' },
     { name: 'espree', version: '9.6.1' },
     { name: 'prettier', version: '3.0.3' },
     { name: 'husky', version: '8.0.3' },
     { name: 'lint-staged', version: '15.0.2' },
     { name: 'commitlint', version: '3.0.3' },
     { name: 'commitizen', version: '4.3.0' },
-    { name: 'stylelint', version: '15.11.0' },
+    { name: 'eslint-config-prettier', version: '9.0.0' },
+    { name: 'vue-eslint-parser', version: '9.3.2' },
+    { name: 'eslint-plugin-vue', version: '9.17.0' },
+    { name: '@nuxtjs/eslint-config-typescript', version: '12.0.0' },
+    { name: '@typescript-eslint/parser', version: '6.9.0' },
 ]
