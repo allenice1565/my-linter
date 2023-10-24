@@ -1,6 +1,7 @@
 import temp from 'temp'
 import fse from 'fs-extra'
-import type { QuestionCollection } from 'inquirer'
+import type { QuestionCollection, Answers } from 'inquirer'
+import editor from 'editor'
 
 const log = console
 const config = {
@@ -90,7 +91,7 @@ const questions: QuestionCollection = [
         type: 'editor',
         name: 'subject',
         message: config.messages.subject,
-        default: (answers) => {
+        default: (answers: Answers) => {
             if (answers.type === 'release') return '更新版本'
         },
         validate(value) {
@@ -136,8 +137,11 @@ const questions: QuestionCollection = [
 ]
 
 export default {
-    prompter(cz, commit) {
-        cz.prompt(questions).then((answers) => {
+    prompter(
+        cz: { prompt: (questions: QuestionCollection) => Promise<Answers> },
+        commit: (msg: string) => any
+    ) {
+        cz.prompt(questions).then((answers: Answers) => {
             const emoji = config.types.find((e) => {
                 return answers.type === e.value
             }).emoji
@@ -150,21 +154,24 @@ export default {
             }
             if (answers.confirmCommit === 'no')
                 return log.info('已经取消Commit。')
-            temp.open(null, (err: any, info) => {
-                if (err) return
-                fse.writeSync(info.fd, message)
-                fse.close(info.fd, () => {
-                    editor(info.path, (code) => {
-                        if (code === 0) {
-                            const commitStr = fse.readFileSync(info.path, {
-                                encoding: 'utf8',
-                            })
-                            return commit(commitStr)
-                        }
-                        log.info(`你的Commit信息是：\n${message}`)
+            temp.track().open(
+                null,
+                (err: any, info: { fd: number; path: string }) => {
+                    if (err) return
+                    fse.writeSync(info.fd, message)
+                    fse.close(info.fd, () => {
+                        editor(info.path, (code: number) => {
+                            if (code === 0) {
+                                const commitStr = fse.readFileSync(info.path, {
+                                    encoding: 'utf8',
+                                })
+                                return commit(commitStr)
+                            }
+                            log.info(`你的Commit信息是：\n${message}`)
+                        })
                     })
-                })
-            })
+                }
+            )
         })
     },
 }
