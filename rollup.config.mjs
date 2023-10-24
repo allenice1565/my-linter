@@ -10,12 +10,44 @@ const config = defineConfig([
     {
         input: ['src/index.ts'],
         output: [
+            // {
+            //     dir: 'dist/esm',
+            //     format: 'es',
+            // },
             {
-                dir: 'dist/esm',
-                format: 'es',
+                dir: 'dist',
+                format: 'cjs',
             },
+        ],
+        plugins: [
+            resolve({ preferBuiltins: true, exportConditions: ['node'] }),
+            commonjs(),
+            ts(),
+            json(),
+        ],
+        external: ['readable-stream'],
+    },
+    {
+        input: ['src/cz.ts'],
+        output: [
             {
-                dir: 'dist/cjs',
+                dir: 'dist',
+                format: 'cjs',
+            },
+        ],
+        plugins: [
+            resolve({ preferBuiltins: true, exportConditions: ['node'] }),
+            commonjs(),
+            ts(),
+            json(),
+        ],
+        external: ['readable-stream'],
+    },
+    {
+        input: ['src/commitlint-config.ts'],
+        output: [
+            {
+                dir: 'dist',
                 format: 'cjs',
             },
         ],

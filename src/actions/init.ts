@@ -6,6 +6,7 @@ import { getConfig } from '@utils/prompts'
 import type { IConfig, PKG } from '@/types'
 import { generateTemplates } from '@/utils/generate-templates'
 import installDependencies from '@/utils/install-dependencies'
+import { execSync } from 'child_process'
 export default async () => {
     const cwd = process.cwd()
     const pkgPath = path.resolve(cwd, 'package.json')
@@ -33,14 +34,21 @@ export default async () => {
     if (!pkg.scripts[`${PKG_NAME}-fix`]) {
         pkg.scripts[`${PKG_NAME}-fix`] = `${PKG_NAME} fix`
     }
-
+    pkg.scripts.commit = 'npx cz'
     // 配置 commit 卡点
     log.info(`Step ${++step}. 配置 git commit 卡点`)
-    if (!pkg.husky) pkg.husky = {}
-    if (!pkg.husky.hooks) pkg.husky.hooks = {}
-    pkg.husky.hooks['pre-commit'] = `${PKG_NAME} commit-file-scan`
-    pkg.husky.hooks['commit-msg'] = `${PKG_NAME} commit-msg-scan`
+    if (!pkg['lint-staged'])
+        pkg['lint-staged'] = {
+            '*.js, *.ts, *.vue, *.jsx, *.tsx': ['eslint --fix', 'prettier'],
+            '*.md, *.less, *.scss': ['prettier'],
+        }
+    if (!pkg.config) pkg.config = {}
+    pkg.config.commitizen = {
+        path: `${PKG_NAME}/cz.js`,
+    }
+
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 4))
+
     log.success(`Step ${step}. 配置 git commit 卡点成功 :D`)
 
     log.info(`Step ${++step}. 写入配置文件`)

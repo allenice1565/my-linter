@@ -8,6 +8,8 @@ export default function installDependencies({ eslintType, npmType }: IConfig) {
         'prettier',
         'husky',
         'lint-staged',
+        'commitlint',
+        'commitizen',
         'eslint-plugin-prettier',
         'eslint-config-prettier',
     ]

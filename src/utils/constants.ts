@@ -1,16 +1,17 @@
 import path from 'path'
 import fs from 'fs-extra'
-import url from 'url'
 import { IEslintType } from '@/types'
+import process from 'node:process'
+import url from 'url'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
+export const cwd = process.cwd()
+
 // 读取 package.json
 const packageJson: Record<string, any> = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8')
 )
-
-export const cwd = process.cwd()
 
 export enum UNICODE {
     success = '\u2714', // ✔
@@ -232,7 +233,7 @@ export const dependenciesInfo: Array<Record<'name' | 'version', string>> = [
     { name: 'prettier', version: '3.0.3' },
     { name: 'husky', version: '8.0.3' },
     { name: 'lint-staged', version: '15.0.2' },
-    { name: 'commitlint', version: '3.0.3' },
+    { name: 'commitlint', version: '18.0.0' },
     { name: 'commitizen', version: '4.3.0' },
     { name: 'eslint-config-prettier', version: '9.0.0' },
     { name: 'vue-eslint-parser', version: '9.3.2' },
