@@ -35,28 +35,28 @@ export const PROJECT_TYPES: Array<{
     value: string
 }> = [
     {
-        name: 'Vue 项目（JavaScript）',
-        value: 'vue',
-    },
-    {
-        name: 'Vue 项目（TypeScript）',
-        value: 'vue/typescript',
-    },
-    {
-        name: 'Node.js 项目（JavaScript）',
-        value: 'node',
-    },
-    {
-        name: 'Node.js 项目（TypeScript）',
-        value: 'node/typescript',
+        name: 'nuxt 项目（TypeScript）',
+        value: 'nuxt/typescript',
     },
     {
         name: 'nuxt 项目（JavaScript）',
         value: 'nuxt',
     },
     {
-        name: 'nuxt 项目（TypeScript）',
-        value: 'nuxt/typescript',
+        name: 'Vue 项目（TypeScript）',
+        value: 'vue/typescript',
+    },
+    {
+        name: 'Vue 项目（JavaScript）',
+        value: 'vue',
+    },
+    {
+        name: 'Node.js 项目（TypeScript）',
+        value: 'node/typescript',
+    },
+    {
+        name: 'Node.js 项目（JavaScript）',
+        value: 'node',
     },
 ]
 
@@ -175,23 +175,17 @@ export const eslintConfigMap: Record<IEslintType, Record<string, any>> = {
     node: {
         language: 'javascript',
         env: { browser: true },
-        extendsList: [
-            '@nuxtjs/eslint-config-typescript',
-            'plugin:vue/vue3-essential',
-            'plugin:vue/vue3-recommended',
-            'prettier',
-        ],
+        extendsList: ['prettier'],
         pluginsList: [],
+        parser: 'espree',
+        parserOptions: {
+            ecmaVersion: 15,
+        },
     },
     'node/typescript': {
         language: 'javascript',
         env: { browser: true },
-        extendsList: [
-            '@nuxtjs/eslint-config-typescript',
-            'plugin:vue/vue3-essential',
-            'plugin:vue/vue3-recommended',
-            'prettier',
-        ],
+        extendsList: ['prettier'],
         pluginsList: [],
         parser: '@typescript-eslint/parser',
         parserOptions: {

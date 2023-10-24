@@ -19,7 +19,7 @@ export default function installDependencies({ eslintType, npmType }: IConfig) {
             'vue-eslint-parser',
             '@typescript-eslint/parser',
         ],
-        node: [...commonDep],
+        node: [...commonDep, 'espree'],
         'node/typescript': [...commonDep, '@typescript-eslint/parser'],
         nuxt: [...commonDep],
         'nuxt/typescript': [...commonDep, '@nuxtjs/eslint-config-typescript'],
