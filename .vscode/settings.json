@@ -9,10 +9,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "files.autoSave": "off",
     "editor.wordWrap": "on",
-    "prettier.arrowParens": "always",
-    "prettier.tabWidth": 4,
-    "vue.codeActions.enabled": false,
-    "[vue]": {
+    "prettier.endOfLine": "lf",
+    "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
 }

@@ -1,28 +1,22 @@
 module.exports = {
-    root: true,
-    ignorePatterns: [
-        'cdn/*',
-        'node_modules/*',
-    ],
     env: {
-        browser: true,
-        es2021: true,
         node: true,
-        commonjs: true
     },
-    extends: ['prettier'],
+    extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'eslint-config-prettier',
+    ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        ecmaVersion: 15,
-        sourceType: 'module',
-        ecmaFeatures: {
-            modules: true,
-            jsx: true
-        },
+        project: './tsconfig.json',
     },
-    plugins: [],
+    plugins: ['@typescript-eslint'],
+    root: true,
+    ignorePatterns: ['.eslintrc.js', 'rollup.config.mjs', '**/*.ejs'],
     rules: {
-        'linebreak-style': ['error', 'unix'],  // 强制使用Unix换行符 \n for LF
-        'no-multiple-empty-lines': [1, { max: 2 }], // 空行最多不能超过2行
-    }
+        'linebreak-style': ['error', 'unix'], // 强制使用Unix换行符 \n for LF
+        '@typescript-eslint/no-explicit-any': 0,
+        '@typescript-eslint/no-var-requires': 0,
+    },
 }
