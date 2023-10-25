@@ -1,11 +1,12 @@
 import fse from 'fs-extra'
 import type { QuestionCollection, Answers } from 'inquirer'
-import path from 'path'
-import os from 'os'
+import path from 'node:path'
+import os from 'node:os'
 import cnst from 'node:constants'
 import { rimraf } from 'rimraf'
 import { spawn } from 'node:child_process'
-import process from 'process'
+import process from 'node:process'
+import inquirer from './utils/inquirer/lib/inquirer.js'
 
 const dir = path.resolve(os.tmpdir())
 const RDWR_EXCL = cnst.O_CREAT | cnst.O_TRUNC | cnst.O_RDWR | cnst.O_EXCL
@@ -97,7 +98,7 @@ const questions: QuestionCollection = [
         name: 'type',
         message: config.messages.type,
         choices: config.types,
-        suffix: '使用上下箭头选择',
+        suffix: '(使用上下箭头选择)',
     },
     {
         type: 'input',
@@ -120,7 +121,7 @@ const questions: QuestionCollection = [
             { key: 'n', name: 'No', value: false },
             { key: 'y', name: 'Yes', value: true },
         ],
-        suffix: '使用上下箭头选择',
+        suffix: '(使用上下箭头选择)',
     },
     {
         type: 'expand',
@@ -160,11 +161,8 @@ interface OpenFile {
     fd: number
 }
 export default {
-    prompter(
-        cz: { prompt: (questions: QuestionCollection) => Promise<Answers> },
-        commit: (msg: string) => any
-    ) {
-        cz.prompt(questions).then((answers: Answers) => {
+    prompter(_: never, commit: (msg: string) => any) {
+        inquirer.prompt(questions).then((answers: Answers) => {
             const emoji = config.types.find((e) => {
                 return answers.type === e.value
             }).emoji

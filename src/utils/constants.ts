@@ -1,8 +1,8 @@
-import path from 'path'
+import path from 'node:path'
 import fs from 'fs-extra'
 import { IEslintType } from '@/types'
 import process from 'node:process'
-import url from 'url'
+import url from 'node:url'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 

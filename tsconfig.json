@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "outDir": "./dist",
         "types": ["node", "vitest/globals"],
         "noImplicitAny": true,
         "lib": ["ESNext"],
@@ -16,5 +17,5 @@
         }
     },
     "include": ["src/**/*", "tests/**/*", "*.ts", "*.tsx", "global.d.ts"],
-    "exclude": ["node_modules", "lib/**/*"]
+    "exclude": ["node_modules", "dist", "src/utils/inquirer/"]
 }

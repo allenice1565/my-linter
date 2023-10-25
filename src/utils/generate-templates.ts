@@ -1,8 +1,8 @@
 import { IConfig } from 'src/types'
 import ejs from 'ejs'
-import path from 'path'
+import path from 'node:path'
 import fse from 'fs-extra'
-import url from 'url'
+import url from 'node:url'
 import { eslintConfigMap, cwd } from './constants'
 import { PKG_NAME } from './constants'
 
