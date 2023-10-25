@@ -43,22 +43,6 @@ const config = defineConfig([
         ],
         external: ['readable-stream'],
     },
-    {
-        input: ['src/commitlint-config.ts'],
-        output: [
-            {
-                dir: 'dist',
-                format: 'cjs',
-            },
-        ],
-        plugins: [
-            resolve({ preferBuiltins: true, exportConditions: ['node'] }),
-            commonjs(),
-            ts(),
-            json(),
-        ],
-        external: ['readable-stream'],
-    },
     // 打包类型声明
     // {
     //     input: 'src/index.ts',

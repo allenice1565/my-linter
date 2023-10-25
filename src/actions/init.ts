@@ -7,6 +7,7 @@ import type { IConfig, PKG } from '@/types'
 import { generateTemplates } from '@/utils/generate-templates'
 import installDependencies from '@/utils/install-dependencies'
 import { execSync } from 'child_process'
+
 export default async () => {
     const cwd = process.cwd()
     const pkgPath = path.resolve(cwd, 'package.json')
@@ -21,7 +22,9 @@ export default async () => {
     const configResult = await getConfig()
     const config: IConfig = configResult.config
     let step = configResult.step
+    log.info(`Step ${++step}. 安装依赖`)
     installDependencies(config)
+    log.success(`Step ${++step}. 依赖安装成功 :D`)
     // 更新 pkg.json
     pkg = fs.readJSONSync(pkgPath)
     // 在 `package.json` 中写入 `scripts`
@@ -44,11 +47,17 @@ export default async () => {
         }
     if (!pkg.config) pkg.config = {}
     pkg.config.commitizen = {
-        path: `${PKG_NAME}/cz.js`,
+        path: `./node_modules/${PKG_NAME}/dist/cz.js`,
     }
-
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 4))
-
+    execSync(`npx husky install`, { stdio: 'inherit' })
+    execSync(
+        `npx husky add ".husky/commit-msg" "npx --no -- commitlint --edit $1"`,
+        { stdio: 'inherit' }
+    )
+    execSync(`npx husky add ".husky/pre-commit" "npx lint-staged"`, {
+        stdio: 'inherit',
+    })
     log.success(`Step ${step}. 配置 git commit 卡点成功 :D`)
 
     log.info(`Step ${++step}. 写入配置文件`)

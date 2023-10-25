@@ -12,6 +12,8 @@ export default function installDependencies({ eslintType, npmType }: IConfig) {
         'commitizen',
         'eslint-plugin-prettier',
         'eslint-config-prettier',
+        '@commitlint/cli',
+        '@commitlint/config-conventional',
     ]
     const depMap: { [keyof in typeof eslintType]: string[] } = {
         vue: [...commonDep, 'eslint-plugin-vue', 'vue-eslint-parser'],

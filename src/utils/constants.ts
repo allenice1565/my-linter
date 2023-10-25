@@ -234,6 +234,8 @@ export const dependenciesInfo: Array<Record<'name' | 'version', string>> = [
     { name: 'husky', version: '8.0.3' },
     { name: 'lint-staged', version: '15.0.2' },
     { name: 'commitlint', version: '18.0.0' },
+    { name: '@commitlint/cli', version: '18.0.0' },
+    { name: '@commitlint/config-conventional', version: '18.0.0' },
     { name: 'commitizen', version: '4.3.0' },
     { name: 'eslint-config-prettier', version: '9.0.0' },
     { name: 'vue-eslint-parser', version: '9.3.2' },

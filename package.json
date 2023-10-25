@@ -3,7 +3,8 @@
     "version": "0.0.1",
     "description": "",
     "private": "true",
-    "main": "./dist/src/index.js",
+    "bin": "./dist/index.js",
+    "main": "./dist/index.js",
     "scripts": {
         "dev": "rm -rf dist && npm run copyfiles && rollup -c",
         "build": "rollup -c",
@@ -16,10 +17,11 @@
     "exports": {
         ".": {
             "require": "./dist/index.js"
-        }
+        },
+        "./cz": "./dist/cz.js",
+        "./commitlint": "./dist/commitlint-config.js"
     },
     "files": [
-        "es/*",
         "dist/*"
     ],
     "keywords": [],

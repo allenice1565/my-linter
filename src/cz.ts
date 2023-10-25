@@ -97,6 +97,7 @@ const questions: QuestionCollection = [
         name: 'type',
         message: config.messages.type,
         choices: config.types,
+        suffix: '使用上下箭头选择',
     },
     {
         type: 'input',
@@ -119,6 +120,7 @@ const questions: QuestionCollection = [
             { key: 'n', name: 'No', value: false },
             { key: 'y', name: 'Yes', value: true },
         ],
+        suffix: '使用上下箭头选择',
     },
     {
         type: 'expand',
@@ -137,11 +139,11 @@ const questions: QuestionCollection = [
                 '###--------------------------------------------------------###'
             log.info(
                 `
-                ${SEP}
-                ${emoji} ${answers.subject}${
+${SEP}
+${answers.type}: ${emoji} ${answers.subject}${
                     answers.release ? ' #release#' : ''
                 }
-                ${SEP}
+${SEP}
                 `
             )
             return config.messages.confirmCommit
@@ -166,7 +168,7 @@ export default {
             const emoji = config.types.find((e) => {
                 return answers.type === e.value
             }).emoji
-            const message = `${emoji} ${answers.subject}${
+            const message = `${answers.type}: ${emoji} ${answers.subject}${
                 answers.release ? ' #release#' : ''
             }`
             if (answers.confirmCommit === 'yes') return commit(message)
