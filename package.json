@@ -4,7 +4,6 @@
     "description": "",
     "private": "true",
     "main": "./dist/src/index.js",
-    "types": "./dist/src/index.d.ts",
     "scripts": {
         "dev": "rm -rf dist && npm run copyfiles && rollup -c",
         "build": "rollup -c",
@@ -16,7 +15,6 @@
     },
     "exports": {
         ".": {
-            "types": "./dist/index.d.ts",
             "require": "./dist/index.js"
         }
     },
@@ -40,21 +38,20 @@
         "@types/fs-extra": "^11.0.2",
         "@types/inquirer": "^9.0.3",
         "@types/node": "^20.7.0",
+        "@types/rimraf": "^4.0.5",
         "@types/temp": "^0.9.3",
         "@typescript-eslint/eslint-plugin": "^6.7.3",
-        "@typescript-eslint/parser": "^6.7.3",
+        "@typescript-eslint/parser": "^6.9.0",
         "babel": "^6.23.0",
         "commitlint": "^18.0.0",
         "copyfiles": "^2.4.1",
-        "editor": "^1.0.0",
         "ejs": "^3.1.9",
-        "eslint": "^8.50.0",
+        "eslint": "^8.52.0",
         "eslint-config-prettier": "^9.0.0",
         "prettier": "^3.0.3",
         "rollup": "^3.29.4",
         "rollup-plugin-dts": "^6.0.2",
         "rollup-plugin-node-globals": "^1.4.0",
-        "temp": "^0.9.4",
         "tslib": "^2.6.2",
         "typescript": "^5.2.2",
         "vitest": "^0.34.6"
@@ -65,11 +62,19 @@
         "fs-extra": "^11.1.1",
         "glob": "^10.3.10",
         "inquirer": "^9.2.11",
-        "markdownlint": "^0.31.1",
         "ora": "^7.0.1",
-        "stylelint": "^15.10.3"
+        "rimraf": "^5.0.5"
     },
     "peerDependencies": {
         "readable-stream": "3.6.2"
+    },
+    "lint-staged": {
+        "*.js, *.ts, *.vue, *.jsx, *.tsx": [
+            "eslint --fix",
+            "prettier"
+        ],
+        "*.md, *.less, *.scss": [
+            "prettier"
+        ]
     }
 }

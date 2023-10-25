@@ -1,8 +1,18 @@
-import temp from 'temp'
 import fse from 'fs-extra'
 import type { QuestionCollection, Answers } from 'inquirer'
-import editor from 'editor'
+import path from 'path'
+import os from 'os'
+import cnst from 'node:constants'
+import { rimraf } from 'rimraf'
+import { spawn } from 'node:child_process'
 
+const dir = path.resolve(os.tmpdir())
+const RDWR_EXCL = cnst.O_CREAT | cnst.O_TRUNC | cnst.O_RDWR | cnst.O_EXCL
+const tracking = false
+let exitListenerAttached = false
+const rimrafSync = rimraf.sync
+const filesToDelete: string[] = []
+const dirsToDelete: string[] = []
 const log = console
 const config = {
     alias: {
@@ -127,7 +137,9 @@ const questions: QuestionCollection = [
             log.info(
                 `
                 ${SEP}
-                ${emoji} ${answers.subject}${answers.release && ' #release#'}
+                ${emoji} ${answers.subject}${
+                    answers.release ? ' #release#' : ''
+                }
                 ${SEP}
                 `
             )
@@ -136,6 +148,160 @@ const questions: QuestionCollection = [
     },
 ]
 
+interface AffixOptions {
+    prefix?: string | null | undefined
+    suffix?: string | null | undefined
+    dir?: string | undefined
+}
+const parseAffixes = function (
+    rawAffixes: string | AffixOptions | undefined,
+    defaultPrefix: string
+) {
+    let affixes: AffixOptions = { prefix: null, suffix: null }
+    if (rawAffixes) {
+        switch (typeof rawAffixes) {
+            case 'string':
+                affixes.prefix = rawAffixes
+                break
+            case 'object':
+                affixes = rawAffixes
+                break
+            default:
+                throw new Error(`Unknown affix declaration: ${affixes}`)
+        }
+    } else {
+        affixes.prefix = defaultPrefix
+    }
+    return affixes
+}
+const generateName = function (
+    rawAffixes: string | AffixOptions | undefined,
+    defaultPrefix: string
+) {
+    const affixes: AffixOptions = parseAffixes(rawAffixes, defaultPrefix)
+    const now = new Date()
+    const name = [
+        affixes.prefix,
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        '-',
+        process.pid,
+        '-',
+        (Math.random() * 0x100000000 + 1).toString(36),
+        affixes.suffix,
+    ].join('')
+    return path.join(affixes.dir || dir, name)
+}
+
+const promisify = function (callback: any, ...arges: any[]) {
+    if (typeof callback === 'function') return [undefined, callback]
+
+    let promiseCallback
+    const promise = new Promise((resolve, reject) => {
+        promiseCallback = function () {
+            const args = Array.from(arges)
+            const err = args.shift()
+
+            process.nextTick(() => {
+                if (err) reject(err)
+                else if (args.length === 1) resolve(args[0])
+                else resolve(args)
+            })
+        }
+    })
+
+    return [promise, promiseCallback]
+}
+interface OpenFile {
+    path: string
+    fd: number
+}
+function cleanupFilesSync() {
+    if (!tracking) return false
+
+    let count = 0
+    let toDelete
+    // eslint-disable-next-line no-cond-assign
+    while ((toDelete = filesToDelete.shift()) !== undefined) {
+        rimrafSync(toDelete, { maxBusyTries: 6 })
+        count++
+    }
+    return count
+}
+
+function cleanupDirsSync() {
+    if (!tracking) return false
+
+    let count = 0
+    let toDelete
+    // eslint-disable-next-line no-cond-assign
+    while ((toDelete = dirsToDelete.shift()) !== undefined) {
+        rimrafSync(toDelete, { maxBusyTries: 6 })
+        count++
+    }
+    return count
+}
+function cleanupSync() {
+    if (!tracking) return false
+
+    const fileCount = cleanupFilesSync()
+    const dirCount = cleanupDirsSync()
+    return { files: fileCount, dirs: dirCount }
+}
+function attachExitListener() {
+    if (!tracking) return false
+    if (!exitListenerAttached) {
+        process.addListener('exit', () => {
+            try {
+                cleanupSync()
+            } catch (err) {
+                console.warn('Fail to clean temporary files on exit : ', err)
+                throw err
+            }
+        })
+        exitListenerAttached = true
+    }
+}
+function deleteFileOnExit(filePath: string) {
+    if (!tracking) return false
+    attachExitListener()
+    filesToDelete.push(filePath)
+}
+function tempOpen(
+    affixes: string | AffixOptions | undefined,
+    callback: (err: any, result: OpenFile) => void
+) {
+    const p = promisify(callback)
+    const promise = p[0]
+    callback = p[1]
+
+    const path = generateName(affixes, 'f-')
+    fse.open(path, RDWR_EXCL, 0o600, (err, fd) => {
+        if (!err) deleteFileOnExit(path)
+
+        callback(err, { path, fd })
+    })
+    return promise
+}
+function editor(file?: string, opts?: any | object, cb?: any) {
+    if (typeof opts === 'function') {
+        cb = opts
+        opts = {}
+    }
+    if (!opts) opts = {}
+
+    const ed = process.platform.startsWith('win') ? 'notepad' : 'vim'
+    const editor = opts.editor || process.env.VISUAL || process.env.EDITOR || ed
+    const args = editor.split(/\s+/)
+    const bin = args.shift()
+
+    const ps = spawn(bin, args.concat([file]), { stdio: 'inherit' })
+
+    ps.on('exit', (code: number, sig: any) => {
+        if (typeof cb === 'function') cb(code, sig)
+    })
+}
 export default {
     prompter(
         cz: { prompt: (questions: QuestionCollection) => Promise<Answers> },
@@ -145,33 +311,27 @@ export default {
             const emoji = config.types.find((e) => {
                 return answers.type === e.value
             }).emoji
-            let message = `${emoji} ${answers.subject}`
-            if (answers.release) {
-                message += ' #release#'
-            }
-            if (answers.confirmCommit === 'yes') {
-                commit(message)
-            }
+            const message = `${emoji} ${answers.subject}${
+                answers.release ? ' #release#' : ''
+            }`
+            if (answers.confirmCommit === 'yes') return commit(message)
             if (answers.confirmCommit === 'no')
-                return log.info('已经取消Commit。')
-            temp.track().open(
-                null,
-                (err: any, info: { fd: number; path: string }) => {
-                    if (err) return
-                    fse.writeSync(info.fd, message)
-                    fse.close(info.fd, () => {
-                        editor(info.path, (code: number) => {
-                            if (code === 0) {
-                                const commitStr = fse.readFileSync(info.path, {
-                                    encoding: 'utf8',
-                                })
-                                return commit(commitStr)
-                            }
-                            log.info(`你的Commit信息是：\n${message}`)
-                        })
+                return log.info('已经取消Commit')
+            tempOpen(null, (err: any, info: { fd: number; path: string }) => {
+                if (err) return
+                fse.writeSync(info.fd, message)
+                fse.close(info.fd, () => {
+                    editor(info.path, (code: number) => {
+                        if (code === 0) {
+                            const commitStr = fse.readFileSync(info.path, {
+                                encoding: 'utf8',
+                            })
+                            return commit(commitStr)
+                        }
+                        log.info(`你的Commit信息是：\n${message}`)
                     })
-                }
-            )
+                })
+            })
         })
     },
 }

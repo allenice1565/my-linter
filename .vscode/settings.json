@@ -1,3 +1,18 @@
 {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.autoSave": "off",
+    "editor.wordWrap": "on",
+    "prettier.arrowParens": "always",
+    "prettier.tabWidth": 4,
+    "vue.codeActions.enabled": false,
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
